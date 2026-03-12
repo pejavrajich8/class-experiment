@@ -2,9 +2,9 @@
 // db.php - Database connection configuration
 
 define('DB_HOST', 'localhost');
-define('DB_USER', 'appuser');       // Change to your MySQL username
-define('DB_PASS', 'AppPass123!');   // Change to your MySQL password
-define('DB_NAME', 'student_feedback');
+define('DB_USER', 'johny');       // Change to your MySQL username
+define('DB_PASS', '1234');   // Change to your MySQL password
+define('DB_NAME', 'wordpress');
 
 function getConnection(): mysqli {
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
