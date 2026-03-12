@@ -1,0 +1,13 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+
+# PHP environment overrides (keep db.php but ignore any local override)
+public/db.local.php
+
+# Logs
+*.log

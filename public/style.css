@@ -1,0 +1,114 @@
+/* style.css – Student Feedback App */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  color: #333;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+header h1 { font-size: 2.2rem; color: #2d3748; }
+header p  { color: #718096; margin-top: .4rem; }
+
+/* Cards */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+.card h2 {
+  font-size: 1.3rem;
+  color: #2d3748;
+  margin-bottom: 1.4rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: .6rem;
+}
+
+/* Alerts */
+.alert {
+  padding: .85rem 1.1rem;
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  font-weight: 500;
+}
+.alert.success { background: #c6f6d5; color: #276749; border: 1px solid #9ae6b4; }
+.alert.error   { background: #fed7d7; color: #9b2c2c; border: 1px solid #feb2b2; }
+
+/* Form */
+.form-group { margin-bottom: 1.2rem; }
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: .4rem;
+  color: #4a5568;
+}
+.req { color: #e53e3e; }
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+  width: 100%;
+  padding: .65rem .9rem;
+  border: 1.5px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color .2s;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,.2);
+}
+
+/* Star Rating */
+.star-row { display: flex; gap: .4rem; flex-direction: row-reverse; justify-content: flex-end; }
+.star-label { cursor: pointer; }
+.star-label input { display: none; }
+.star { font-size: 2rem; color: #cbd5e0; transition: color .15s; }
+.star-label input:checked ~ .star,
+.star-label:hover .star,
+.star-label:hover ~ .star-label .star { color: #f6ad55; }
+
+/* Submit Button */
+.btn-submit {
+  display: inline-block;
+  padding: .75rem 2rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .2s, transform .1s;
+}
+.btn-submit:hover  { opacity: .9; transform: translateY(-1px); }
+.btn-submit:active { transform: translateY(0); }
+
+/* Table */
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+thead tr { background: #667eea; color: #fff; }
+th, td { padding: .75rem 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+tbody tr:hover { background: #f7fafc; }
+
+.rating .star-on  { color: #f6ad55; }
+.rating .star-off { color: #e2e8f0; }
+
+.no-data { color: #a0aec0; font-style: italic; text-align: center; padding: 1rem 0; }
