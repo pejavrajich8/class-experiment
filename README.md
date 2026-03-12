@@ -83,39 +83,51 @@ FLUSH PRIVILEGES;
 
 ## Part 3 – Apache2 Virtual Host
 
-### 1. Copy the virtual host file
+### macOS (Homebrew) – Automated Deployment
+
+```bash
+# 1. Install stack
+brew install php mysql httpd
+
+# 2. Start services
+brew services start mysql
+brew services start php
+brew services start httpd
+
+# 3. Enable required modules in /opt/homebrew/etc/httpd/httpd.conf
+sed -i '' 's|^#LoadModule proxy_module |LoadModule proxy_module |' /opt/homebrew/etc/httpd/httpd.conf
+sed -i '' 's|^#LoadModule proxy_fcgi_module |LoadModule proxy_fcgi_module |' /opt/homebrew/etc/httpd/httpd.conf
+sed -i '' 's|^#LoadModule rewrite_module |LoadModule rewrite_module |' /opt/homebrew/etc/httpd/httpd.conf
+sed -i '' 's|^#LoadModule vhost_alias_module |LoadModule vhost_alias_module |' /opt/homebrew/etc/httpd/httpd.conf
+
+# 4. Add Listen 8082 and enable vhosts include
+sed -i '' 's|^Listen 8080|Listen 8080\nListen 8082|' /opt/homebrew/etc/httpd/httpd.conf
+sed -i '' 's|^ServerName www.example.com:8080|ServerName localhost:8080|' /opt/homebrew/etc/httpd/httpd.conf
+sed -i '' 's|^#Include .*/httpd-vhosts.conf|Include /opt/homebrew/etc/httpd/extra/httpd-vhosts.conf|' /opt/homebrew/etc/httpd/httpd.conf
+
+# 5. Deploy app files
+mkdir -p /opt/homebrew/var/www/student-feedback
+cp -r public/* /opt/homebrew/var/www/student-feedback/
+
+# 6. Install virtual host (see apache/httpd-vhosts.conf)
+cp apache/httpd-vhosts.conf /opt/homebrew/etc/httpd/extra/httpd-vhosts.conf
+
+# 7. Verify & reload
+/opt/homebrew/bin/httpd -t
+brew services restart httpd
+```
+
+### Debian/Ubuntu – Manual Deployment
 
 ```bash
 sudo cp apache/student-feedback.conf /etc/apache2/sites-available/
-```
-
-### 2. Enable the site and required modules
-
-```bash
 sudo a2ensite student-feedback.conf
-sudo a2enmod rewrite
-```
-
-### 3. Add port 8082 to ports.conf
-
-```bash
+sudo a2enmod rewrite proxy proxy_fcgi
 echo "Listen 8082" | sudo tee -a /etc/apache2/ports.conf
-```
-
-Or replace `/etc/apache2/ports.conf` with the provided `apache/ports.conf`.
-
-### 4. Copy the application files
-
-```bash
 sudo mkdir -p /var/www/student-feedback
-sudo cp -r public/ /var/www/student-feedback/public
+sudo cp -r public/ /var/www/student-feedback/
 sudo chown -R www-data:www-data /var/www/student-feedback
-```
-
-### 5. Reload Apache
-
-```bash
-sudo apache2ctl configtest   # verify syntax
+sudo apache2ctl configtest
 sudo systemctl reload apache2
 ```
 
@@ -125,9 +137,10 @@ sudo systemctl reload apache2
 |---|---|
 | Port | **8082** |
 | ServerName | `feedback.local` |
-| DocumentRoot | `/var/www/student-feedback/public` |
-| Error log | `/var/log/apache2/student-feedback-error.log` |
-| Access log | `/var/log/apache2/student-feedback-access.log` |
+| DocumentRoot | `/opt/homebrew/var/www/student-feedback` (macOS) |
+| PHP backend | `fcgi://127.0.0.1:9000` (PHP-FPM) |
+| Error log | `/opt/homebrew/var/log/httpd/student-feedback-error.log` |
+| Access log | `/opt/homebrew/var/log/httpd/student-feedback-access.log` |
 
 ---
 
